@@ -48,7 +48,6 @@
             transition: opacity 0.5s ease;
             z-index: 10;
             background-color: #4a0000;
-            /* Optimized Background (Removed feTurbulence) */
             background-image: 
                 radial-gradient(circle at 50% 40%, #8a0505 0%, #3a0000 60%, #0a0000 100%),
                 radial-gradient(rgba(0,0,0,0.3) 1px, transparent 1px);
@@ -455,7 +454,6 @@
             transform-style: preserve-3d;
             will-change: transform;
             border: 3px solid rgba(212, 175, 55, 0.4);
-            /* Prevent image highlighting on mobile */
             -webkit-user-drag: none;
             user-select: none;
         }
@@ -604,12 +602,23 @@
             letter-spacing: 5px;
         }
 
+        /* --- MOBILE OPTIMIZATION --- */
         @media (max-width: 480px) {
             .name-script { font-size: 3rem; }
             .event-title { font-size: 2.2rem; }
             .action-btn { font-size: 0.75rem; padding: 10px 15px; }
-            .content-section { padding-top: 260px; } 
-            .rsvp-block { padding: 30px 15px; }
+            
+            /* Reduced spacing for mobile to remove unnecessary gaps */
+            .content-section { padding: 20px 15px; } 
+            .content-section:first-of-type { padding-top: 260px; } /* Preserve curtain gap */
+            .content-section.event-block {
+                padding: 10px 15px !important;
+                margin: 10px 0 !important;
+            }
+            .indian-divider {
+                margin: 10px 0 !important;
+            }
+            .rsvp-block { padding: 30px 15px; margin: 30px 15px; }
         }
     </style>
 </head>
@@ -697,8 +706,8 @@
         </div>
 
         <!-- Section: Pure Icon Video Button -->
-        <div class="content-section" style="padding-top: 0; padding-bottom: 20px;">
-            <div class="fun-text" style="font-size: 1.15rem; color: var(--royal-red); margin-bottom: 15px;">
+        <div class="content-section" style="padding-top: 0; padding-bottom: 10px;">
+            <div class="fun-text" style="font-size: 1.15rem; color: var(--royal-red); margin-bottom: 10px;">
                 Let's know their love story a little better...
             </div>
             <button class="wedding-video-btn" onclick="playStoryVideo()" aria-label="Play Video">
@@ -891,7 +900,7 @@
         let lastTrailTime = 0;
         function createTrailPetal(x, y) {
             const now = Date.now();
-            // Throttle to 20 frames per second max to save mobile battery/CPU
+            // Throttle to save mobile battery/CPU
             if(now - lastTrailTime < 50 || Math.random() > 0.6) return; 
             lastTrailTime = now;
             
